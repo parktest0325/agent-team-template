@@ -7,9 +7,9 @@ You can clone this repository to build your own custom project.
 ## TODO
 - [x] MCP 연동  
       Integrated with MCP
-- [ ] 결과가 나올때까지 무한히 반복하는 구조 구현
+- [ ] 결과가 나올때까지 무한히 반복하는 구조 구현     
       Implements a loop that runs until the desired result is achieved
-- [ ] Agent와 통신할 인터페이스를 슬랙봇으로 구현
+- [ ] Agent와 통신할 인터페이스를 슬랙봇으로 구현    
       Implements a Slack bot as the interface for communicating with the agent
 
 
