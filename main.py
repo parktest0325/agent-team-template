@@ -27,21 +27,22 @@ async def ask(query: str, runner, user_id, session_id):
 
 
 from weather_team.workflows.weather_team import make_runner, USER_ID, SESSION_ID
-runner = make_runner()
 
 async def loop():
-    print("🌤  Weather CLI – type 'exit' to quit")
-    while True:
-        q = input("➜ ")
-        if q.lower() in {"exit", "quit"}:
-            break
-        await ask(q, runner, USER_ID, SESSION_ID)
+    runner, stack = await make_runner()
+    async with stack:
+        print("🌤  Weather CLI – type 'exit' to quit")
+        while True:
+            q = input("➜ ")
+            if q.lower() in {"exit", "quit"}:
+                break
+            await ask(q, runner, USER_ID, SESSION_ID)
 
-        # 질문 한번마다 스테이트 확인
-        # final_session = session_service.get_session(app_name=APP_NAME,
-        #                         user_id= USER_ID,
-        #                         session_id=SESSION_ID)
-        # print(f"Full State: {final_session.state}")
+            # 질문 한번마다 스테이트 확인
+            # final_session = session_service.get_session(app_name=APP_NAME,
+            #                         user_id= USER_ID,
+            #                         session_id=SESSION_ID)
+            # print(f"Full State: {final_session.state}")
 
 if __name__ == "__main__":
     try:

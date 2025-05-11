@@ -49,6 +49,10 @@ Hello, dongkim!
 ```bash
 $ adk web
 # using browser. access at http://localhost:8000
+
+# if windows
+$ uv run adk_web_for_windows.py
+# using browser. access at http://localhost:8000
 ```
 
 #### 결과

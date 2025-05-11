@@ -7,7 +7,7 @@ APP_NAME = "weather_tutorial_agent_team"
 USER_ID = "user_1_agent_team"
 SESSION_ID = "session_001_agent_team" # 단순함을 위해 고정된 세션ID 사용
 
-def make_runner() -> Runner:
+async def make_runner():
     # 초기 세션 상태 지정
     initial_state = {
         "user_preference_temperature_unit": "Celsius"
@@ -28,9 +28,9 @@ def make_runner() -> Runner:
     else:
         print("Error: Could not retrieve session.")
 
-    root = build_weather_root()
+    root, stack = await build_weather_root()
     return Runner(
         agent=root, # 루트 에이전트 객체 사용
         app_name=APP_NAME,       # 특정한 앱 이름 사용
         session_service=session_service # 특정한 세션 서비스 사용
-    )
+    ), stack
