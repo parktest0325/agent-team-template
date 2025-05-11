@@ -1,6 +1,7 @@
 # agent-team-template
 
 ## 실행하기
+### 직접 실행
 1. API KEY 를 .env에 설정
 ```bash
 $ cp .env_example .env
@@ -13,10 +14,18 @@ $ vi .env
 $ uv venv
 $ source ./.venv/bin/activate
 $ uv pip install -r requirements.txt
+$ cd weather_team
 $ uv run main.py
 ```
 
-3. 결과
+<br>
+
+### adk web으로 실행
+
+
+<br>
+
+### 결과
 ```text
 ➜ hi 나는 dongkim 이야
 Hello, dongkim!
