@@ -1,8 +1,8 @@
 # agent-team-template
-google-adk 의 tutorial을 기준으로 파일을 나눠둔 샘플 프로젝트입니다. 
-이 프로젝트를 클론하여 원하는 프로젝트를 구현할 수 있습니다.
-This is a sample project structured based on the google-adk tutorial.
-You can clone this repository to build your own custom project.
+google-adk 의 tutorial을 기준으로 파일을 나눠둔 샘플 프로젝트입니다.       
+이 프로젝트를 클론하여 원하는 프로젝트를 구현할 수 있습니다.        
+This is a sample project structured based on the google-adk tutorial.       
+You can clone this repository to build your own custom project.    
 
 ## TODO
 - [x] MCP 연동  
