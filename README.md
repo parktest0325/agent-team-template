@@ -27,11 +27,10 @@ root/
 ├─ tools/               # 외부 IO, LLM 호출 없는 순수 함수 권장
 │  ├─ __init__.py
 │  ├─ weather.py
-│  ├─ git.py
-│  └─ build.py
+│  └─ greet.py
 │
 ├─ workflows/           # “팀”을 조립하는 factory
-│  └─ weather_team.py   # create_weather_team(session_service)
+│  └─ weather_team.py   # def make_runner()
 │
 ├─ services/
 │  ├─ session.py        # SessionService wrappers / adapters
