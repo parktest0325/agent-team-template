@@ -36,7 +36,7 @@ async def call_agent_async(query: str, runner, user_id, session_id):
     # 최종 답변을 찾기 위해 이벤트들을 반복(iterate)합니다.
     async for event in runner.run_async(user_id=user_id, session_id=session_id, new_message=content):
         # 아래 줄의 주석을 해제하면 실행 중 발생하는 *모든* 이벤트를 확인할 수 있습니다.
-        print(f"  [Event] Author: {event.author}, Type: {type(event).__name__}, Final: {event.is_final_response()}, Content: {event.content}")
+        # print(f"  [Event] Author: {event.author}, Type: {type(event).__name__}, Final: {event.is_final_response()}, Content: {event.content}")
 
         # 핵심 컨셉: is_final_response()는 해당 턴의 마지막 메시지임을 나타냅니다.
         if event.is_final_response():
@@ -51,7 +51,7 @@ async def call_agent_async(query: str, runner, user_id, session_id):
     print(f"<<< Agent Response: {final_response_text}")
 
 
-from agents.root_agent import runner_agent_team, USER_ID, SESSION_ID
+from agents.root_agent import runner_agent_team, session_service, APP_NAME, USER_ID, SESSION_ID
 from agents.gpt4o_agent import gpt_runner, USER_ID_GPT, SESSION_ID_GPT
 
 async def run_conversation():
@@ -61,11 +61,16 @@ async def run_conversation():
                             runner=runner_agent_team,
                             user_id=USER_ID,
                             session_id=SESSION_ID)
+        # 질문 한번마다 스테이트 확인
+        final_session = session_service.get_session(app_name=APP_NAME,
+                                user_id= USER_ID,
+                                session_id=SESSION_ID)
+        print(f"Full State: {final_session.state}")
 
-        await call_agent_async(query=q,
-            runner=gpt_runner,
-            user_id=USER_ID_GPT,
-            session_id=SESSION_ID_GPT)
+        # await call_agent_async(query=q,
+        #     runner=gpt_runner,
+        #     user_id=USER_ID_GPT,
+        #     session_id=SESSION_ID_GPT)
 
 if __name__ == "__main__":
     try:

@@ -1,5 +1,5 @@
 from agents.greet_agent import greeting_agent, farewell_agent
-from tools.weather import get_weather
+from tools.weather import get_weather, get_weather_stateful, set_temperature_unit
 from constant import *
 from google.adk.agents import Agent
 from google.adk.runners import Runner
@@ -16,19 +16,17 @@ if greeting_agent and farewell_agent and 'get_weather' in globals():
     root_agent_model = MODEL_GEMINI_2_0_FLASH
 
     weather_agent_team = Agent(
-        name="weather_agent_v2",  # 새로운 버전 이름
+        name="weather_agent_42",  # 새로운 버전 이름
         model=root_agent_model,
-        description="날씨 요청을 처리하고 인사/작별은 전문 하위 에이전트에게 위임하는 메인 조율 에이전트입니다.",
-        instruction="당신은 팀을 조율하는 메인 날씨 에이전트입니다. 주된 역할은 날씨 정보를 제공하는 것입니다. "
-                    "'get_weather' 도구는 특정한 날씨 요청(예: '런던 날씨 알려줘')에만 사용하세요. "
-                    "당신에게는 두 명의 전문 하위 에이전트가 있습니다: "
-                    "1. 'greeting_agent': '안녕', '반가워'와 같은 간단한 인사를 처리합니다. 이런 경우 이 에이전트에게 위임하세요. "
-                    "2. 'farewell_agent': '잘가', '또 봐'와 같은 작별 인사를 처리합니다. 이런 경우 이 에이전트에게 위임하세요. "
-                    "사용자의 요청을 분석하세요. 인사면 'greeting_agent'에게, 작별이면 'farewell_agent'에게 위임하세요. "
-                    "날씨 요청이면 직접 'get_weather' 도구로 처리하세요. "
-                    "그 외의 경우에는 적절히 응답하거나 처리할 수 없음을 알려주세요.",
-        tools=[get_weather],  # 루트 에이전트는 여전히 날씨 요청을 위해 get_weather 도구를 사용합니다.
-        sub_agents=[greeting_agent, farewell_agent]  # 하위 에이전트를 연결합니다!
+        description="메인 에이전트: 날씨 제공(state 기반 단위 변환), greetings/farewells 위임, 보고서 state에 저장",
+        instruction="당신은 메인 날씨 에이전트입니다. 당신의 역할은 'get_weather_stateful' 도구를 사용해 날씨 정보를 제공하는 것입니다. "
+                    "해당 도구는 사용자 state에 저장된 선호 단위(섭씨/화씨 등)에 따라 온도를 자동으로 포맷합니다. "
+                    "사용자가 '화씨로 바꿔줘', '섭씨로 바꿔줘' 같이 **단위 변경**을 요청하면 set_temperature_unit 을 호출한다."
+                    "간단한 인사는 'greeting_agent'에게, 작별 인사는 'farewell_agent'에게 위임하세요. "
+                    "날씨 요청, 인사, 작별 인사만 처리하세요.",
+        tools=[get_weather_stateful, set_temperature_unit],  # 상태기반 stateful 함수로 변경 
+        sub_agents=[greeting_agent, farewell_agent],  # 하위 에이전트를 연결합니다!
+        output_key="last_weather_report" # <<< 에이전트의 최종 대답 자동 저장
     )
     print(f"✅ Root Agent '{weather_agent_team.name}' created using model '{root_agent_model}' with sub-agents: {[sa.name for sa in weather_agent_team.sub_agents]}")
 
@@ -60,13 +58,28 @@ if root_agent_var_name in globals() and globals()[root_agent_var_name]:
     USER_ID = "user_1_agent_team"
     SESSION_ID = "session_001_agent_team" # 단순함을 위해 고정된 세션ID 사용
 
+    # 초기 세션 상태 지정
+    initial_state = {
+        "user_preference_temperature_unit": "Celsius"
+    }
+
     # 대화가 진행될 특정 세션을 생성합니다.
     session = session_service.create_session(
         app_name=APP_NAME,
         user_id=USER_ID,
-        session_id=SESSION_ID
+        session_id=SESSION_ID,
+        state=initial_state    # << 초기상태 설정
     )
     print(f"Session created: App='{APP_NAME}', User='{USER_ID}', Session='{SESSION_ID}'")
+
+    retrieved_session = session_service.get_session(app_name=APP_NAME,
+                                                         user_id=USER_ID,
+                                                         session_id = SESSION_ID)
+    print("\n--- Initial Session State ---")
+    if retrieved_session:
+        print(retrieved_session.state)
+    else:
+        print("Error: Could not retrieve session.")
 
     # --- 실제 루트 에이전트 객체 가져오기 ---
     # 확인된 변수 이름을 사용하세요
@@ -80,3 +93,4 @@ if root_agent_var_name in globals() and globals()[root_agent_var_name]:
         )
     # 실제 루트 에이전트의 이름을 출력하도록 print 문을 수정했습니다
     print(f"Runner created for agent '{actual_root_agent.name}'.")
+
