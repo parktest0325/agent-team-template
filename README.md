@@ -17,19 +17,7 @@ $ uv pip install -r requirements.txt
 $ uv run main.py
 ```
 
-<br>
-
-### adk web으로 실행
-```bash
-$ adk web
-# using browser. access at http://localhost:8000
-```
-
-
-
-<br>
-
-### 결과
+#### 결과
 ```text
 ➜ hi 나는 dongkim 이야
 Hello, dongkim!
@@ -55,7 +43,21 @@ Hello, dongkim!
 ➜ exit
 ```
 
+<br>
 
+### adk web으로 실행
+```bash
+$ adk web
+# using browser. access at http://localhost:8000
+```
+
+#### 결과
+
+![image](https://github.com/user-attachments/assets/d6db62b2-01f6-4dc8-81a9-c10b1b1f04bf)
+
+
+
+<br>
 
 ## 디렉터리 레이아웃
 ```text
