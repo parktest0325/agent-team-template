@@ -15,3 +15,30 @@ $ uv pip install -r requirements.txt
 $ uv run main.py
 ```
 
+
+### gpt가 알려준 디렉터리 레이아웃
+```text
+root/
+├─ agents/              # “정의”만 : Agent subclasses / prompt / tool 바인딩
+│  ├─ __init__.py
+│  ├─ greet.py
+│  └─ weather.py
+│
+├─ tools/               # 외부 IO, LLM 호출 없는 순수 함수 권장
+│  ├─ __init__.py
+│  ├─ weather.py
+│  ├─ git.py
+│  └─ build.py
+│
+├─ workflows/           # “팀”을 조립하는 factory
+│  └─ weather_team.py   # create_weather_team(session_service)
+│
+├─ services/
+│  ├─ session.py        # SessionService wrappers / adapters
+│  └─ guardrails.py
+│
+├─ config.py            # .env → pydantic BaseSettings
+├─ constants.py
+├─ main.py
+└─ requirements.txt
+```

@@ -25,18 +25,10 @@ def get_weather(city: str) -> dict:
     else:
         return {"status": "error", "error_message": f"Sorry, I don't have weather information for '{city}'."}
 
-# Example tool usage (optional test)
-print("======= TOOL TEST START =============")
-print(get_weather("New York"))
-print(get_weather("Paris"))
-print("======= TOOL TEST DONE =============")
-
-
 
 
 
 from google.adk.tools.tool_context import ToolContext
-
 
 def set_temperature_unit(unit: str, tool_context:ToolContext) -> bool:
     """현재 세션의 선호하는 온도 단위를 변경합니다.
@@ -96,5 +88,3 @@ def get_weather_stateful(city: str, tool_context: ToolContext) -> dict:
         error_msg = f"Sorry, I don't have weather information for '{city}'."
         print(f"--- Tool: City '{city}' not found. ---")
         return {"status": "error", "error_message": error_msg}
-
-print("✅ State-aware 'get_weather_stateful' tool defined.")

@@ -40,7 +40,7 @@ def block_keyword_guardrail(
         return LlmResponse(
             content=types.Content(
                 role="model", # 에이전트의 관점에서 보낸 응답처럼 가장합니다
-                parts=[types.Part(text=f"I cannot process this request because it contains the blocked keyword '{keyword_to_block}'.")],
+                parts=[types.Part(text=f"이 요청에는 차단된 키워드 '{keyword_to_block}'가 포함되어 있어 처리할 수 없습니다.")],
             )
             # 참고: 필요하다면 여기에서 error_message 필드를 설정할 수도 있습니다
         )
@@ -89,7 +89,7 @@ def block_paris_tool_guardrail(
             # 이 딕셔너리는 도구의 결과로 처리되며, 실제 도구 실행은 건너뜁니다
             return {
                 "status": "error",
-                "error_message": f"Policy restriction: Weather checks for '{city_argument.capitalize()}' are currently disabled by a tool guardrail."
+                "error_message": f"정책 제한: '{city_argument.capitalize()}'에 대한 날씨 조회는 현재 도구 가드레일에 의해 비활성화되어 있습니다."
             }
         else:
              print(f"--- Callback: City '{city_argument}' is allowed for tool '{tool_name}'. ---")
