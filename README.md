@@ -1,4 +1,28 @@
 # agent-team-template
+google-adk 의 tutorial을 기준으로 파일을 나눠둔 샘플 프로젝트입니다. 
+이 프로젝트를 클론하여 원하는 프로젝트를 구현할 수 있습니다.
+This is a sample project structured based on the google-adk tutorial.
+You can clone this repository to build your own custom project.
+
+## TODO
+- [x] MCP 연동  
+      Integrated with MCP
+- [ ] 결과가 나올때까지 무한히 반복하는 구조 구현
+      Implements a loop that runs until the desired result is achieved
+- [ ] Agent와 통신할 인터페이스를 슬랙봇으로 구현
+      Implements a Slack bot as the interface for communicating with the agent
+
+
+<br>
+
+
+## MCP 세팅
+예시는 옵시디언
+![image](https://github.com/user-attachments/assets/8c5104dd-c0da-4a50-a66f-d0b54f3bed36)
+
+
+
+<br>
 
 ## 실행하기
 ### 직접 실행
