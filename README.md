@@ -20,23 +20,21 @@ $ uv run main.py
 ```text
 root/
 ├─ agents/              # “정의”만 : Agent subclasses / prompt / tool 바인딩
-│  ├─ __init__.py
-│  ├─ greet.py
-│  └─ weather.py
+│  ├─ greet_agent.py
+│  └─ root_agent.py
 │
 ├─ tools/               # 외부 IO, LLM 호출 없는 순수 함수 권장
-│  ├─ __init__.py
 │  ├─ weather.py
 │  └─ greet.py
 │
 ├─ workflows/           # “팀”을 조립하는 factory
-│  └─ weather_team.py   # def make_runner()
+│  └─ weather_team.py   # make_runner()
 │
 ├─ services/
 │  ├─ session.py        # SessionService wrappers / adapters
 │  └─ guardrails.py
 │
-├─ config.py            # .env → pydantic BaseSettings
+├─ config.py            # .env load
 ├─ constants.py
 ├─ main.py
 └─ requirements.txt
