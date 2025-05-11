@@ -1,6 +1,6 @@
 from google.adk.runners import Runner
-from agents.root_agent import build_weather_root
-from services.session import create_session_service
+from weather_team.agents.weather_root_agent import build_weather_root
+from weather_team.services.session import create_session_service
 
 # 상호작용 컨텍스트를 식별하기 위한 상수를 정의합니다.
 APP_NAME = "weather_tutorial_agent_team"

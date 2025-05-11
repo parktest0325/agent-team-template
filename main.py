@@ -26,7 +26,7 @@ async def ask(query: str, runner, user_id, session_id):
     print(f"{final_response_text}")
 
 
-from workflows.weather_team import make_runner, USER_ID, SESSION_ID
+from weather_team.workflows.weather_team import make_runner, USER_ID, SESSION_ID
 runner = make_runner()
 
 async def loop():

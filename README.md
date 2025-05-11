@@ -14,13 +14,17 @@ $ vi .env
 $ uv venv
 $ source ./.venv/bin/activate
 $ uv pip install -r requirements.txt
-$ cd weather_team
 $ uv run main.py
 ```
 
 <br>
 
 ### adk web으로 실행
+```bash
+$ adk web
+# using browser. access at http://localhost:8000
+```
+
 
 
 <br>
