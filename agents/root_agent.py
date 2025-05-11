@@ -1,5 +1,6 @@
 from agents.greet_agent import greeting_agent, farewell_agent
 from tools.weather import get_weather, get_weather_stateful, set_temperature_unit
+from tools.guardrail import block_keyword_guardrail, block_paris_tool_guardrail
 from constant import *
 from google.adk.agents import Agent
 from google.adk.runners import Runner
@@ -18,15 +19,15 @@ if greeting_agent and farewell_agent and 'get_weather' in globals():
     weather_agent_team = Agent(
         name="weather_agent_42",  # 새로운 버전 이름
         model=root_agent_model,
-        description="메인 에이전트: 날씨 제공(state 기반 단위 변환), greetings/farewells 위임, 보고서 state에 저장",
-        instruction="당신은 메인 날씨 에이전트입니다. 당신의 역할은 'get_weather_stateful' 도구를 사용해 날씨 정보를 제공하는 것입니다. "
-                    "해당 도구는 사용자 state에 저장된 선호 단위(섭씨/화씨 등)에 따라 온도를 자동으로 포맷합니다. "
-                    "사용자가 '화씨로 바꿔줘', '섭씨로 바꿔줘' 같이 **단위 변경**을 요청하면 set_temperature_unit 을 호출한다."
+        description="메인 에이전트: 날씨 처리, 인사/작별 위임, 입력 키워드 검사 기능 포함",
+        instruction="당신은 메인 날씨 에이전트입니다. 'get_weather_stateful' 도구를 사용해 날씨 정보를 제공하세요. "
                     "간단한 인사는 'greeting_agent'에게, 작별 인사는 'farewell_agent'에게 위임하세요. "
                     "날씨 요청, 인사, 작별 인사만 처리하세요.",
         tools=[get_weather_stateful, set_temperature_unit],  # 상태기반 stateful 함수로 변경 
         sub_agents=[greeting_agent, farewell_agent],  # 하위 에이전트를 연결합니다!
-        output_key="last_weather_report" # <<< 에이전트의 최종 대답 자동 저장
+        output_key="last_weather_report", # <<< 에이전트의 최종 대답 자동 저장
+        before_model_callback=block_keyword_guardrail,
+        before_tool_callback=block_paris_tool_guardrail,
     )
     print(f"✅ Root Agent '{weather_agent_team.name}' created using model '{root_agent_model}' with sub-agents: {[sa.name for sa in weather_agent_team.sub_agents]}")
 
