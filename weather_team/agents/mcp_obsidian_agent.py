@@ -4,6 +4,7 @@ from google.adk.agents.llm_agent import LlmAgent
 from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset, StdioServerParameters
+from weather_team.constant import MODEL_GEMINI_2_0_FLASH
 
 
 # --- Step 1: Import Tools from MCP Server ---
@@ -33,14 +34,14 @@ async def build_obsidian_agent_async():
     print(f"Fetched {len(tools)} tools from MCP server.")
 
     search_tool = LlmAgent(
-        model='gemini-2.5-flash-preview-04-17',
+        model=MODEL_GEMINI_2_0_FLASH,
         name='google_search_agent',
         instruction="사용자 요청에 맞춰 Google 웹 검색 결과를 제공한다.",
         tools=[google_search], # Provide the MCP tools to the ADK agent
     )
 
     obsidian_agent = LlmAgent(
-        model='gemini-2.5-flash-preview-04-17',
+        model=MODEL_GEMINI_2_0_FLASH,
         name='obsidian_assistant',
         instruction="사용자가 사용할 수 있는 도구들을 통해 Obsidian과 상호작용할 수 있도록 한다.",
         tools=tools + [AgentTool(agent=search_tool)],

@@ -1,5 +1,5 @@
 from google.adk.runners import Runner
-from weather_team.agents.weather_root_agent import build_weather_root
+from weather_team.agents.weather_root_agent import build_root
 from weather_team.services.session import create_session_service
 
 # 상호작용 컨텍스트를 식별하기 위한 상수를 정의합니다.
@@ -28,7 +28,7 @@ async def make_runner():
     else:
         print("Error: Could not retrieve session.")
 
-    root, stack = await build_weather_root()
+    root, stack = await build_root()
     return Runner(
         agent=root, # 루트 에이전트 객체 사용
         app_name=APP_NAME,       # 특정한 앱 이름 사용

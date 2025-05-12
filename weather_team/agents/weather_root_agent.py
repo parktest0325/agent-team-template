@@ -7,7 +7,7 @@ from google.adk.models.lite_llm import LiteLlm
 from weather_team.agents.mcp_obsidian_agent import build_obsidian_agent_async
 from contextlib import AsyncExitStack
 
-async def build_weather_root():
+async def build_root():
     stack = AsyncExitStack()
     greet = build_greet_agent()
     bye   = build_farewell_agent()
@@ -27,4 +27,4 @@ async def build_weather_root():
         before_model_callback=block_keyword_guardrail,
         before_tool_callback=block_paris_tool_guardrail,
     )
-    return root_team, obs_stack
+    return root_team, stack
